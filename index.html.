@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIXIT ENTERTAINMENT</title>
+    <style>
+        /* --- ОБЩИЕ НАСТРОЙКИ И ШРИФТЫ --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+
+        :root {
+            --bg-color: #0a0a0a;
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --accent-white: #ffffff;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+            --border-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Имитация текстуры ткани/газеты на фоне */
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+        }
+
+        /* --- ТИПОГРАФИКА --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h2 span {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent-white);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 6px;
+        }
+
+        .hero .subtitle {
+            font-family: var(--font-sans);
+            letter-spacing: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+            color: var(--text-muted);
+        }
+
+        .hero .tagline {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero .intro-text {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+        }
+
+        /* Элемент "Погода Токио" как на фото */
+        .weather-widget {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-sans);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .weather-widget .temp {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--accent-white);
+        }
+
+        /* --- СЕКЦИИ --- */
+        .section {
+            padding: 6rem 10%;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #111 25%, transparent 25%) -10px 0,
+                        linear-gradient(225deg, #111 25%, transparent 25%) -10px 0,
+                        linear-gradient(45deg, #111 25%, transparent 25%),
+                        linear-gradient(315deg, #111 25%, #0a0a0a 25%);
+            background-size: 20px 20px;
+            padding: 3rem;
+            border: 1px solid #222;
+            position: relative;
+        }
+
+        /* Кружевная рамка (имитация) */
+        .concept-box::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            pointer-events: none;
+            border-style: double;
+        }
+
+        /* --- СПИСКИ И НАПРАВЛЕНИЯ --- */
+        .directions-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .directions-list li {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .directions-list li::before {
+            content: '—';
+            color: var(--text-muted);
+        }
+
+        .directions-list strong {
+            color: var(--accent-white);
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* --- ФОРМЫ (APPLICATION) --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .hero h1 { font-size: 2.5rem; }
+            .section { padding: 4rem 5%; }
+        }
+
+        .form-block {
+            background: #0f0f0f;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-block h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #444;
+            color: var(--accent-white);
+            padding: 0.5rem 0;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-bottom-color: var(--accent-white);
+        }
+
+        /* Правила */
+        .rules-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+        
+        .rules-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .rules-list li::before {
+            content: '✧';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* --- ПОДВАЛ --- */
+        footer {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: #050505;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--accent-white);
+            color: var(--accent-white);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn:hover {
+            background: var(--accent-white);
+            color: var(--bg-color);
+        }
+
+        /* Декоративные элементы (Горошек) */
+        .polka-dot-divider {
+            height: 10px;
+            background-image: radial-gradient(circle, var(--text-muted) 1px, transparent 1px);
+            background-size: 10px 10px;
+            margin: 2rem 0;
+            opacity: 0.5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <header class="hero">
+        <h1>LIXIT</h1>
+        <div class="subtitle">ENTERTAINMENT</div>
+        <div class="tagline">A QUIET CITY. A NEW SOUND. A NEW STORY.</div>
+        <div class="intro-text">
+            <p>Добро пожаловать в LIXIT — независимую развлекательную компанию, созданную для талантливых, целеустремлённых и творческих людей.</p>
+            <p>Мы объединяем людей, которые хотят развиваться, пробовать новое и создавать собственную историю в индустрии развлечений.</p>
+            <p>LIXIT — это не просто компания. Это пространство, в котором каждый может найти своё место, раскрыть потенциал и стать частью чего-то большего.</p>
+        </div>
+        
+        <div class="weather-widget">
+            <div>Tokyo</div>
+            <div class="temp">17°</div>
+            <div style="font-size: 0.7rem; color: #888;">Mostly Cloudy<br>H:15° L:16°</div>
+        </div>
+    </header>
+
+    <!-- 01. ABOUT -->
+    <section class="section">
+        <div class="section-content">
+            <h2>01 <span>ABOUT LIXIT</span></h2>
+            <h3>О компании</h3>
+            <p>LIXIT — независимый entertainment-лейбл, ориентированный на развитие артистов, создание творческих проектов и формирование собственной индустрии.</p>
+            <p>Наша главная цель — предоставить участникам комфортную среду для самореализации, сотрудничества и профессионального роста.</p>
+            <p>Мы ценим индивидуальность, ответственность, инициативность и желание двигаться вперёд.</p>
+            <p>В LIXIT каждый участник является частью общей истории, а его вклад имеет значение.</p>
+        </div>
+    </section>
+
+    <!-- 02. CONCEPT -->
+    <section class="section">
+        <div class="section-content">
+            <h2>02 <span>OUR CONCEPT</span></h2>
+            <div class="concept-box">
+                <h3>Quiet Tokyo</h3>
+                <p>Токио никогда не спит, но даже в самом шумном городе существуют моменты тишины.</p>
+                <p>Ночные улицы, мягкое освещение витрин, отражения неоновых вывесок на мокром асфальте, пустые станции метро и спокойствие среди миллионов огней.</p>
+                <p>Именно эта атмосфера стала основой концепции LIXIT.</p>
+                <p>Мы вдохновляемся эстетикой японского мегаполиса, его контрастами, минимализмом и особенной атмосферой городской жизни.</p>
+                <p>Наш стиль — сдержанный, загадочный и современный.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 03. DIRECTION -->
+    <section class="section">
+        <div class="section-content">
+            <h2>03 <span>OUR DIRECTION</span></h2>
+            <h3>Направления деятельности</h3>
+            <p>LIXIT развивается сразу в нескольких направлениях:</p>
+            <ul class="directions-list">
+                <li>
+                    <div><strong>Artist management</strong> работа с артистами и развитие их творческого потенциала.</div>
+                </li>
+                <li>
+                    <div><strong>Creative production</strong> разработка концепций, творческих идей и проектов.</div>
+                </li>
+                <li>
+                    <div><strong>Media & design</strong> визуальное оформление, информационные материалы и продвижение.</div>
+                </li>
+                <li>
+                    <div><strong>Entertainment projects</strong> организация внутренних и совместных мероприятий.</div>
+                </li>
+                <li>
+                    <div><strong>Collaboration</strong> сотрудничество с другими компаниями и независимыми проектами.</div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 04. JOIN -->
+    <section class="section">
+        <div class="section-content">
+            <h2>04 <span>JOIN LIXIT</span></h2>
+            <h3>Стань частью нашей истории</h3>
+            <p>Мы открываем набор для людей, которые хотят присоединиться к LIXIT и стать частью нашей команды.</p>
+            <p>В компании предусмотрены два основных направления вступления:</p>
+            
+            <div class="polka-dot-divider"></div>
+
+            <div class="form-grid">
+                <!-- Форма артиста -->
+                <div class="form-block">
+                    <h4>ARTIST APPLICATION</h4>
+                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 1.5rem;">Для тех, кто хочет развиваться в качестве артиста, создавать собственный образ, участвовать в проектах и представлять LIXIT.</p>
+                    
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label>1. Ваш псевдоним (на английском)</label>
+                            <input type="text" name="artist_nickname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>2. Ваш возраст</label>
+                            <input type="number" name="artist_age" required>
+                        </div>
+                        <div class="form-group">
+                            <label>3. Дата рождения</label>
+                            <input type="date" name="artist_dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label>4. Ваш прототип</label>
+                            <input type="text" name="artist_prototype">
+                        </div>
+                        <div class="form-group">
+                            <label>5. Желаемое направление</label>
+                            <input type="text" name="artist_direction" placeholder="соло / группа">
+                        </div>
+                        <div class="form-group">
+                            <label>6. Предпочитаемый жанр</label>
+                            <input type="text" name="artist_genre" placeholder="k-pop / dance">
+                        </div>
+                        <div class="form-group">
+                            <label>7. Опыт в подобных проектах</label>
+                            <input type="text" name="artist_experience">
+                        </div>
+                        <div class="form-group">
+                            <label>8. Сколько времени готовы уделять?</label>
+                            <input type="text" name="artist_time">
+                        </div>
+                        <div class="form-group">
+                            <label>9. Активность (1-10)</label>
+                            <input type="number" name="artist_activity" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label>10. Ответственность (1-10)</label>
+                            <input type="number" name="artist_responsibility" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label>11. Почему хотите стать частью LIXIT?</label>
+                            <textarea name="artist_why" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>12. Какие цели ставите?</label>
+                            <textarea name="artist_goals" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>13. Готовы соблюдать правила?</label>
+                            <input type="text" name="artist_rules">
+                        </div>
+                        <div class="form-group">
+                            <label>14. Контакт для связи</label>
+                            <input type="text" name="artist_contact">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Форма стаффа -->
+                <div class="form-block">
+                    <h4>STAFF APPLICATION</h4>
+                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 1.5rem;">Для тех, кто хочет работать над развитием компании, помогать в организации проектов и заниматься внутренней деятельностью лейбла.</p>
+                    
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label>1. Ваше имя или псевдоним</label>
+                            <input type="text" name="staff_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>2. Ваш возраст</label>
+                            <input type="number" name="staff_age" required>
+                        </div>
+                        <div class="form-group">
+                            <label>3. Дата рождения</label>
+                            <input type="date" name="staff_dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label>4. Желаемая должность</label>
+                            <input type="text" name="staff_position">
+                        </div>
+                        <div class="form-group">
+                            <label>5. Опыт работы</label>
+                            <input type="text" name="staff_experience">
+                        </div>
+                        <div class="form-group">
+                            <label>6. Навыки</label>
+                            <input type="text" name="staff_skills">
+                        </div>
+                        <div class="form-group">
+                            <label>7. Время для работы</label>
+                            <input type="text" name="staff_time">
+                        </div>
+                        <div class="form-group">
+                            <label>8. Активность (1-10)</label>
+                            <input type="number" name="staff_activity" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label>9. Ответственность (1-10)</label>
+                            <input type="number" name="staff_responsibility" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label>10. Работа в команде</label>
+                            <input type="text" name="staff_teamwork">
+                        </div>
+                        <div class="form-group">
+                            <label>11. Почему выбрали LIXIT?</label>
+                            <textarea name="staff_why" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>12. Что привнесете в развитие?</label>
+                              <textarea name="staff_contribution" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>13. Готовы выполнять поручения?</label>
+                            <input type="text" name="staff_tasks">
+                        </div>
+                        <div class="form-group">
+                            <label>14. Контакт для связи</label>
+                            <input type="text" name="staff_contact">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted); text-align: center;">
+                Перед отправкой заявки внимательно ознакомьтесь с требованиями и заполните все необходимые пункты.
+            </p>
+        </div>
+    </section>
+
+    <!-- 05. RULES -->
+    <section class="section">
+        <div class="section-content">
+            <h2>05 <span>APPLICATION RULES</span></h2>
+            <h3>Правила подачи заявок</h3>
+            <ul class="rules-list">
+                <li>Заполняйте анкету самостоятельно и внимательно.</li>
+                <li>Не пропускайте обязательные пункты.</li>
+                <li>Предоставляйте достоверную информацию.</li>
+                <li>Не отправляйте одну заявку несколько раз.</li>
+                <li>После отправки дождитесь ответа руководства.</li>
+                <li>Если в течение трёх дней после подачи заявки вы не получили ответа, заявка считается непринятой.</li>
+            </ul>
+            <p style="margin-top: 2rem; font-style: italic; color: var(--text-muted);">Решение о принятии принимается руководством компании.</p>
+        </div>
+    </section>
+
+    <!-- 06. CONTACT -->
+    <footer>
+        <h2 style="border: none; justify-content: center; margin-bottom: 2rem;">06 <span style="margin-left: 1rem;">CONTACT</span></h2>
+        <h3>Связь с LIXIT</h3>
+        <p style="max-width: 600px; margin: 1rem auto 2rem;">По вопросам вступления, сотрудничества и деятельности компании обращайтесь к нашему официальному боту.</p>
+        
+        <a href="https://t.me/lixit_entbot" target="_blank" class="contact-btn">Telegram: @lixit_entbot</a>
+
+        <div class="polka-dot-divider" style="margin: 4rem auto; max-width: 200px;"></div>
+
+        <div class="footer-logo">LIXIT ENTERTAINMENT</div>
+        <div class="footer-tagline">Find your place in the quiet city.</div>
+    </footer>
+
+</body>
+</html>
